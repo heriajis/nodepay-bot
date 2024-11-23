@@ -47,7 +47,11 @@ DOMAIN_API_ENDPOINTS = {
        # "http://54.255.192.166/api/network/ping",
        # "http://18.136.143.169/api/network/ping",
         "http://nodepaypantek.dayon.me/api/network/ping",
-        "http://13.215.134.222/api/network/ping"
+        "http://13.215.134.222/api/network/ping",
+        "http://18.139.20.49/api/network/ping",
+        "http://52.74.35.173/api/network/ping",
+        "http://52.77.10.116/api/network/ping",
+        "http://3.1.154.253/api/network/ping"
        # "http://52.74.35.173/api/network/ping",
        # "http://18.142.214.13/api/network/ping",
        # "http://18.142.29.174/api/network/ping",
@@ -128,15 +132,15 @@ async def call_api(url, data, proxy, token):
             raise ValueError(f"Failed API call to {url}")
 
 async def start_ping(proxy, token, session_url):
-    try:
-        while True:
+    while True:
+        try:
             await ping(proxy, token, session_url)
-            await asyncio.sleep(PING_INTERVAL)
-    except asyncio.CancelledError:
-        pass
-    except Exception as e:
-        # Tangani pengecualian lain jika diperlukan
-        pass
+        except asyncio.CancelledError:
+            break
+        except Exception as e:
+            # Tangani pengecualian lain jika diperlukan
+            print(f"{get_internet_time()}{Fore.RED}| Nodepay | -  Error during ping: {str(e)}")
+        await asyncio.sleep(PING_INTERVAL)
 
 async def ping(proxy, token, session_url):
     global last_ping_time, RETRIES, status_connect
@@ -155,8 +159,8 @@ async def ping(proxy, token, session_url):
         if response["code"] == 0:
             ip_address = re.search(r'(?<=@)[^:]+', proxy)
             if ip_address:
-                print(f"{get_internet_time()}| Nodepay | -  {Fore.GREEN}Ping : {response.get('msg')}, Skor IP: {response['data'].get('ip_score')}, Proxy IP: {ip_address.group()}")
-                print(f"{get_internet_time()}| Nodepay | -  {Fore.GREEN}SESSION: {session_url}, PING: {ping_url}")
+                print(f"{get_internet_time()}| Nodepay | -  {Fore.GREEN}Ping : {response.get('msg')}, Skor IP: {response['data'].get('ip_score')}% , Proxy IP: {ip_address.group()}")
+              #  print(f"{get_internet_time()}| Nodepay | -  {Fore.GREEN}SESSION: {session_url}, PING: {ping_url}")
             RETRIES = 0
             status_connect = CONNECTION_STATES["CONNECTED"]
         else:
