@@ -34,8 +34,10 @@ DOMAIN_API_ENDPOINTS = {
     ],
     "PING": [
         #"PING": "http://54.255.192.166/api/network/ping"
-        "http://52.77.10.116/api/network/ping",
-        "http://13.215.134.222/api/network/ping"
+        #"http://52.77.10.116/api/network/ping",
+        #"http://13.215.134.222/api/network/ping"
+        "https://nw.nodepay.org/api/network/ping",
+        "http://18.142.29.174/api/network/ping"
     ]
 }
 
