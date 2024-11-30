@@ -1,7 +1,6 @@
-# UPDATE
-![photo_2024-11-14_05-57-39](https://github.com/user-attachments/assets/d6e5bb3e-26c9-43a7-a8ab-b5c9a78b80fb)
-
 # BOT NODEPAY AUTO FARMING
+![image](https://github.com/user-attachments/assets/a72d3950-148f-4981-ba92-b1a9c2206d8d)
+
 - MULTI AKUN
 - FIXED ERROR
 
