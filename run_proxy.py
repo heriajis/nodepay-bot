@@ -7,9 +7,10 @@ import requests
 from concurrent.futures import ThreadPoolExecutor
 from colorama import Fore, init, Style
 import sys
+from curl_cffi import requests
 
 
-init(autoreset=True, strip=False)
+init(autoreset=True)
 
 
 logger.remove()
@@ -22,7 +23,8 @@ logger.add(
 
 BANNER = f"""
 {Fore.CYAN}[+]=========================[+]
-{Fore.CYAN}[+]NODEPAY PROXY SCRIPT V2.0[+]
+{Fore.CYAN}[+]NODEPAY PROXY SCRIPT V2.1[+]
+{Fore.CYAN}[+]  FARMING & DAILY CLAIM  [+]
 {Fore.CYAN}[+]=========================[+]
 """
 
@@ -237,6 +239,37 @@ async def main():
 
     # Shutdown the executor
     executor.shutdown(wait=True)
+
+
+def dailyclaim():
+    try:
+        with open('tokens.txt', 'r') as file:
+            local_data = file.read().splitlines()
+            for tokenlist in local_data:
+                url = f"https://api.nodepay.org/api/mission/complete-mission?"
+                headers = {
+                    "Authorization": f"Bearer {tokenlist}",
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+                    "Content-Type": "application/json",
+                    "Origin": "https://app.nodepay.ai",
+                    "Referer": "https://app.nodepay.ai/"
+                }
+                
+                data = {
+                    "mission_id":"1"
+                }
+
+                response = requests.post(url, headers=headers, json=data, impersonate="chrome110")
+                is_success = response.json().get('success')
+                if is_success == True:
+                    logger.info(f"{Fore.GREEN}Claim Reward Success!{Style.RESET_ALL}")
+                    logger.info(f"{Fore.GREEN}{response.json()}{Style.RESET_ALL}")
+                else:
+                    logger.info(f"{Fore.GREEN}Reward Already Claimed! Or Something Wrong!{Style.RESET_ALL}")
+    except requests.exceptions.RequestException as e:
+        logger.info(f"{Fore.GREEN}Error : {e}{Style.RESET_ALL}")
+
+dailyclaim()
 
 
 if __name__ == '__main__':
