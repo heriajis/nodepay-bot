@@ -147,7 +147,7 @@ async def ping(token):
             logger.info(f"Ping successful: {response}")
             RETRIES = 0
             status_connect = CONNECTION_STATES["CONNECTED"]
-	    dailyclaim(token)
+            dailyclaim(token)
         else:
             handle_ping_fail(response)
     except Exception as e:
