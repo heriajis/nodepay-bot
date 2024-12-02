@@ -131,7 +131,7 @@ async def load_tokens():
 async def call_api(url, data, account_info, proxy):
     headers = {
         "Authorization": f"Bearer {account_info.token}",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
         "Accept-Language": "en-US,en;q=0.9",
         "Referer": "https://app.nodepay.ai/",
         "Accept": "application/json, text/plain, */*",
@@ -155,7 +155,8 @@ async def call_api(url, data, account_info, proxy):
         try:
             response = await loop.run_in_executor(
                 executor,
-                lambda: scraper.post(url, json=data, headers=headers, proxies=proxy_config, timeout=30)
+                #lambda: scraper.post(url, json=data, headers=headers, proxies=proxy_config, timeout=30)
+                lambda: requests.post(url, json=data, headers=headers, proxies=proxy_config, impersonate="chrome110", timeout=30)
             )
             response.raise_for_status()
         except Exception as e:
