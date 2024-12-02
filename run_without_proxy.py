@@ -4,9 +4,11 @@ import uuid
 from loguru import logger
 from fake_useragent import UserAgent
 from curl_cffi import requests
+import concurrent.futures
+import threading
 
 # Constants
-PING_INTERVAL = 60
+PING_INTERVAL = 0.5
 RETRIES = 60
 
 DOMAIN_API = {
@@ -24,6 +26,40 @@ status_connect = CONNECTION_STATES["NONE_CONNECTION"]
 browser_id = None
 account_info = {}
 last_ping_time = {}
+
+print(f'==============================================')
+print(f'Farming & Daily Claim Nodepay Multiple Account')
+print(f'==============================================')
+
+def dailyclaim():
+    try:
+        with open('tokens.txt', 'r') as file:
+            local_data = file.read().splitlines()
+            for tokenlist in local_data:
+                url = f"https://api.nodepay.org/api/mission/complete-mission?"
+                headers = {
+                    "Authorization": f"Bearer {tokenlist}",
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+                    "Content-Type": "application/json",
+                    "Origin": "https://app.nodepay.ai",
+                    "Referer": "https://app.nodepay.ai/"
+                }
+                
+                data = {
+                    "mission_id":"1"
+                }
+
+                response = requests.post(url, headers=headers, json=data, impersonate="chrome110")
+                is_success = response.json().get('success')
+                if is_success == True:
+                    logger.info('Claim Reward Success!')
+                    logger.info(response.json())
+                else:
+                    logger.info('Reward Already Claimed! Or Something Wrong!')
+    except requests.exceptions.RequestException as e:
+        logger.info(f"Error : {e}")
+
+dailyclaim()
 
 def uuidv4():
     return str(uuid.uuid4())
@@ -147,7 +183,14 @@ def save_session_info(data):
 def load_session_info():
     return {}  # Return an empty dictionary if no session is saved
 
-async def main():
+def render_profile_info_thread(token):
+    asyncio.run(render_profile_info(token))
+
+async def process_tokens(tokens):
+    tasks = [render_profile_info(token) for token in tokens]
+    await asyncio.gather(*tasks)
+
+def main():
     # Baca token dari file tokens.txt
     try:
         with open('tokens.txt', 'r') as file:
@@ -160,15 +203,10 @@ async def main():
         print("File tokens.txt kosong. Harap masukkan token ke dalam file.")
         exit()
 
-    tasks = [render_profile_info(token) for token in tokens]
-
-    while True:
-        await asyncio.gather(*tasks)
-        await asyncio.sleep(3)
+    asyncio.run(process_tokens(tokens))
 
 if __name__ == '__main__':
-    print("\nAlright, we here! Insert your nodepay token that you got from the tutorial.")
     try:
-        asyncio.run(main())
+        main()
     except (KeyboardInterrupt, SystemExit):
         logger.info("Program terminated by user.")
