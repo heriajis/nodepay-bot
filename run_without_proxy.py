@@ -33,26 +33,26 @@ print(f'==============================================')
 
 def dailyclaim(token):
     try:
-		url = f"https://api.nodepay.org/api/mission/complete-mission?"
-		headers = {
-			"Authorization": f"Bearer {token}",
-			"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-			"Content-Type": "application/json",
-			"Origin": "https://app.nodepay.ai",
-			"Referer": "https://app.nodepay.ai/"
-		}
-		
-		data = {
-			"mission_id":"1"
-		}
-
-		response = requests.post(url, headers=headers, json=data, impersonate="chrome110")
-		is_success = response.json().get('success')
-		if is_success == True:
-			logger.info('Claim Reward Success!')
-			logger.info(response.json())
-		else:
-			logger.info('Reward Already Claimed! Or Something Wrong!')
+        url = f"https://api.nodepay.org/api/mission/complete-mission?"
+        headers = {
+                "Authorization": f"Bearer {token}",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+                "Content-Type": "application/json",
+                "Origin": "https://app.nodepay.ai",
+                "Referer": "https://app.nodepay.ai/"
+        }
+        
+        data = {
+                "mission_id":"1"
+        }
+        
+        response = requests.post(url, headers=headers, json=data, impersonate="chrome110")
+        is_success = response.json().get('success')
+        if is_success == True:
+                logger.info('Claim Reward Success!')
+                logger.info(response.json())
+        else:
+                logger.info('Reward Already Claimed! Or Something Wrong!')
     except requests.exceptions.RequestException as e:
         logger.info(f"Error : {e}")
 
@@ -147,7 +147,7 @@ async def ping(token):
             logger.info(f"Ping successful: {response}")
             RETRIES = 0
             status_connect = CONNECTION_STATES["CONNECTED"]
-			dailyclaim(token)
+	    dailyclaim(token)
         else:
             handle_ping_fail(response)
     except Exception as e:
