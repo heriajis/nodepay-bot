@@ -92,6 +92,31 @@ scraper = cloudscraper.create_scraper(
     }
 )
 
+def dailyclaim(token):
+    try:
+        url = f"https://api.nodepay.org/api/mission/complete-mission?"
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+            "Content-Type": "application/json",
+            "Origin": "https://app.nodepay.ai",
+            "Referer": "https://app.nodepay.ai/"
+        }
+                
+        data = {
+            "mission_id":"1"
+        }
+
+        response = requests.post(url, headers=headers, json=data, impersonate="chrome110")
+        is_success = response.json().get('success')
+        if is_success == True:
+            logger.info(f"{Fore.GREEN}Claim Reward Success!{Style.RESET_ALL}")
+            logger.info(f"{Fore.GREEN}{response.json()}{Style.RESET_ALL}")
+        else:
+            logger.info(f"{Fore.GREEN}Reward Already Claimed! Or Something Wrong!{Style.RESET_ALL}")
+    except requests.exceptions.RequestException as e:
+        logger.info(f"{Fore.GREEN}Error : {e}{Style.RESET_ALL}")
+
 
 async def load_tokens():
     try:
@@ -194,6 +219,7 @@ async def ping(account_info, proxy, url_index):
             else:
                 proxy_ip = proxy.split('://')[-1].split(':')[0]
             logger.info(f"{Fore.GREEN}Ping successful for token using proxy IP {proxy_ip}{Style.RESET_ALL}")
+            dailyclaim(account_info.token)
             
             # Tambahkan logika untuk menghitung ping yang berhasil
             account_info.browser_id['successful_pings'] += 1
@@ -239,38 +265,6 @@ async def main():
 
     # Shutdown the executor
     executor.shutdown(wait=True)
-
-
-def dailyclaim():
-    try:
-        with open('tokens.txt', 'r') as file:
-            local_data = file.read().splitlines()
-            for tokenlist in local_data:
-                url = f"https://api.nodepay.org/api/mission/complete-mission?"
-                headers = {
-                    "Authorization": f"Bearer {tokenlist}",
-                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-                    "Content-Type": "application/json",
-                    "Origin": "https://app.nodepay.ai",
-                    "Referer": "https://app.nodepay.ai/"
-                }
-                
-                data = {
-                    "mission_id":"1"
-                }
-
-                response = requests.post(url, headers=headers, json=data, impersonate="chrome110")
-                is_success = response.json().get('success')
-                if is_success == True:
-                    logger.info(f"{Fore.GREEN}Claim Reward Success!{Style.RESET_ALL}")
-                    logger.info(f"{Fore.GREEN}{response.json()}{Style.RESET_ALL}")
-                else:
-                    logger.info(f"{Fore.GREEN}Reward Already Claimed! Or Something Wrong!{Style.RESET_ALL}")
-    except requests.exceptions.RequestException as e:
-        logger.info(f"{Fore.GREEN}Error : {e}{Style.RESET_ALL}")
-
-dailyclaim()
-
 
 if __name__ == '__main__':
     try:
