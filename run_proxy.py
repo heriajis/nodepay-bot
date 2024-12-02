@@ -3,7 +3,7 @@ import cloudscraper
 import json
 import time
 from loguru import logger
-import requests
+#import requests
 from concurrent.futures import ThreadPoolExecutor
 from colorama import Fore, init, Style
 import sys
