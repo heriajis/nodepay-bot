@@ -31,35 +31,30 @@ print(f'==============================================')
 print(f'Farming & Daily Claim Nodepay Multiple Account')
 print(f'==============================================')
 
-def dailyclaim():
+def dailyclaim(token):
     try:
-        with open('tokens.txt', 'r') as file:
-            local_data = file.read().splitlines()
-            for tokenlist in local_data:
-                url = f"https://api.nodepay.org/api/mission/complete-mission?"
-                headers = {
-                    "Authorization": f"Bearer {tokenlist}",
-                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-                    "Content-Type": "application/json",
-                    "Origin": "https://app.nodepay.ai",
-                    "Referer": "https://app.nodepay.ai/"
-                }
-                
-                data = {
-                    "mission_id":"1"
-                }
+		url = f"https://api.nodepay.org/api/mission/complete-mission?"
+		headers = {
+			"Authorization": f"Bearer {token}",
+			"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+			"Content-Type": "application/json",
+			"Origin": "https://app.nodepay.ai",
+			"Referer": "https://app.nodepay.ai/"
+		}
+		
+		data = {
+			"mission_id":"1"
+		}
 
-                response = requests.post(url, headers=headers, json=data, impersonate="chrome110")
-                is_success = response.json().get('success')
-                if is_success == True:
-                    logger.info('Claim Reward Success!')
-                    logger.info(response.json())
-                else:
-                    logger.info('Reward Already Claimed! Or Something Wrong!')
+		response = requests.post(url, headers=headers, json=data, impersonate="chrome110")
+		is_success = response.json().get('success')
+		if is_success == True:
+			logger.info('Claim Reward Success!')
+			logger.info(response.json())
+		else:
+			logger.info('Reward Already Claimed! Or Something Wrong!')
     except requests.exceptions.RequestException as e:
         logger.info(f"Error : {e}")
-
-dailyclaim()
 
 def uuidv4():
     return str(uuid.uuid4())
@@ -152,6 +147,7 @@ async def ping(token):
             logger.info(f"Ping successful: {response}")
             RETRIES = 0
             status_connect = CONNECTION_STATES["CONNECTED"]
+			dailyclaim(token)
         else:
             handle_ping_fail(response)
     except Exception as e:
