@@ -1,8 +1,14 @@
 # BOT NODEPAY AUTO FARMING
 ![image](https://github.com/user-attachments/assets/a72d3950-148f-4981-ba92-b1a9c2206d8d)
-
 - MULTI AKUN
 - FIXED ERROR
+
+# CEK AKUN VALID IP
+![03 12 2024_13 10 13_REC](https://github.com/user-attachments/assets/c8e75be8-a0e0-49db-b83a-d98ee230e567)
+
+```
+python cek.py
+```
 
 # Register Nodepay
 - https://app.nodepay.ai/register?ref=55vzBVxmyYouwN2
