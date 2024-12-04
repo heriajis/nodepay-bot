@@ -16,22 +16,23 @@ python cek.py
 - https://app.nodepay.ai/register?ref=55vzBVxmyYouwN2
 
 # HOW TO RUN
-```
+
 ```
 cd nodepay
 ```
 ```
 pip install -r requirements.txt
-
-Run dengan proxy (kebanyakan proxy provider tidak tembus)
 ```
+Run dengan proxy (kebanyakan proxy provider tidak tembus)
+
 ```
 python run_proxy.py
-
-Run tanpa proxy (work fine)
 ```
+Run tanpa proxy (work fine)
+
 ```
 python run_without_proxy.py 
+```
 
 # isi tokens.txt dengan token nodepaymu
 - example format
