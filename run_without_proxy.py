@@ -27,9 +27,12 @@ browser_id = None
 account_info = {}
 last_ping_time = {}
 
-print(f'==============================================')
-print(f'Farming & Daily Claim Nodepay Multiple Account')
-print(f'==============================================')
+BANNER = f"""
+{Fore.CYAN}[+]=========================[+]
+{Fore.CYAN}[+]  JEKMEN NGAPREK MUNCAK BOS  [+]
+{Fore.CYAN}[+]  AYO BUSHCRAFT CATCH N COOK [+]
+{Fore.CYAN}[+]=========================[+]
+"""
 
 def dailyclaim(token):
     try:
