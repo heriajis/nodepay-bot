@@ -6,23 +6,6 @@ from fake_useragent import UserAgent
 from curl_cffi import requests
 import concurrent.futures
 import threading
-init(autoreset=True)
-
-
-logger.remove()
-logger.add(
-    sys.stderr,
-    format="<level>{level: <8}</level> | {time:YYYY-MM-DD HH:mm} | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>",
-    level="DEBUG",
-    colorize=True
-)
-
-BANNER = f"""
-{Fore.CYAN}[+]=========================[+]
-{Fore.CYAN}[+]JEKMEN BUSHCRAFT GAS BOSKUH[+]
-{Fore.CYAN}[+]  DAILY CATCH N COOK MANCENG  [+]
-{Fore.CYAN}[+]=========================[+]
-"""
 
 # Constants
 PING_INTERVAL = 0.5
@@ -44,6 +27,9 @@ browser_id = None
 account_info = {}
 last_ping_time = {}
 
+print(f'==============================================')
+print(f'AYO MUNCAK JEK, BUSHCRAFT CATCH N COOK FORAGING')
+print(f'==============================================')
 
 def dailyclaim(token):
     try:
