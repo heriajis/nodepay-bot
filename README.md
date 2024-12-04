@@ -1,4 +1,6 @@
 # BOT NODEPAY AUTO FARMING
+DIUTAMAKAN UNTUK MENJALANKAN TANPA PROXY
+
 ![image](https://github.com/user-attachments/assets/a72d3950-148f-4981-ba92-b1a9c2206d8d)
 - MULTI AKUN
 - FIXED ERROR
@@ -15,17 +17,21 @@ python cek.py
 
 # HOW TO RUN
 ```
-git clone https://github.com/AirdropFamilyIDN-V2-0/nodepay.git
-```
 ```
 cd nodepay
 ```
 ```
 pip install -r requirements.txt
+
+Run dengan proxy (kebanyakan proxy provider tidak tembus)
 ```
 ```
 python run_proxy.py
+
+Run tanpa proxy (work fine)
 ```
+```
+python run_without_proxy.py 
 
 # isi tokens.txt dengan token nodepaymu
 - example format
